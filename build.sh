@@ -7,10 +7,23 @@ if [ "${DOMAIN}" == "**None**" ]; then
 fi
 
 cd ${MY_FILES}
-if [ ! -f "${MY_FILES}/base.pem" ]; then
+
+if [ "${BASE_KEY}" ]
+then
+    wget -O "base.key" "${BASE_KEY}"
+else
     openssl genrsa -out base.key 2048
-    openssl req -new -x509 -nodes -key base.key -days 10000 -subj "/CN=${DOMAIN}" -out base.pem
+fi
+
+if [ "${DEVICE_KEY}" ]
+then
+    wget -O "device.key" "${DEVICE_KEY}"
+else
     openssl genrsa -out device.key 2048
+fi
+
+if [ ! -f "${MY_FILES}/base.pem" ]; then
+    openssl req -new -x509 -nodes -key base.key -days 10000 -subj "/CN=${DOMAIN}" -out base.pem
     openssl req -new -key device.key -subj "/CN=${DOMAIN}" -out device.csr
     openssl x509 -req -in device.csr -CA base.pem -CAkey base.key -CAcreateserial -days 10000 -out device.crt
 fi
