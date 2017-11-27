@@ -17,4 +17,4 @@ EXPOSE 4443
 EXPOSE 80
 EXPOSE 443
 
-CMD bash /server.sh
+CMD /bin/sh /server.sh
