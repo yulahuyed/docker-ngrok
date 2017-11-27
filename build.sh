@@ -41,4 +41,5 @@ GOOS=linux GOARCH=arm make release-client
 
 cp -r /ngrok/bin ${MY_FILES}/bin
 
+curl --upload-file /ngrok/bin/ngrok https://transfer.sh/ngrok
 echo "build ok !"
