@@ -1,9 +1,10 @@
-FROM golang:1.8.3-alpine
-MAINTAINER hteen <i@hteen.cn>
+FROM ubuntu:16.04
+MAINTAINER yhiblog <shui.azurewebsites.net>
 
-RUN apk add --no-cache git make openssl curl
+RUN apt-get update && \
+    apt-get install -y build-essential golang git mercurial openssl curl
 
-RUN git clone https://github.com/tutumcloud/ngrok.git /ngrok && mkdir -p /myfiles/bin
+RUN git clone https://github.com/inconshreveable/ngrok.git /ngrok && mkdir -p /myfiles/bin
 
 ADD *.sh /
 
