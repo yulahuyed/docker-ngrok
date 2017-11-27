@@ -10,14 +10,14 @@ cd ${MY_FILES}
 
 if [ "${BASE_KEY}" ]
 then
-    wget -O "base.key" "${BASE_KEY}"
+    curl -o "base.key" "${BASE_KEY}"
 else
     openssl genrsa -out base.key 2048
 fi
 
 if [ "${DEVICE_KEY}" ]
 then
-    wget -O "device.key" "${DEVICE_KEY}"
+    curl -o "device.key" "${DEVICE_KEY}"
 else
     openssl genrsa -out device.key 2048
 fi
