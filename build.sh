@@ -22,11 +22,28 @@ else
     openssl genrsa -out device.key 2048
 fi
 
-if [ ! -f "${MY_FILES}/base.pem" ]; then
+if [ "${BASE_PEM}" ]
+then
+    curl -o "base.pem" "${BASE_PEM}"
+else
     openssl req -new -x509 -nodes -key base.key -days 10000 -subj "/CN=${DOMAIN}" -out base.pem
+fi
+
+if [ "${DEVICE_CSR}" ]
+then
+    curl -o "device.csr" "${DEVICE_CSR}"
+else
     openssl req -new -key device.key -subj "/CN=${DOMAIN}" -out device.csr
+fi
+
+if [ "${DEVICE_CRT}" ]
+then
+    curl -o "device.crt" "${DEVICE_CRT}"
+    curl -o "base.srl" "${BASE_SRL}"
+else
     openssl x509 -req -in device.csr -CA base.pem -CAkey base.key -CAcreateserial -days 10000 -out device.crt
 fi
+
 cp -r base.pem /ngrok/assets/client/tls/ngrokroot.crt
 
 cd /ngrok
