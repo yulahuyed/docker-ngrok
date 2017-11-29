@@ -10,7 +10,10 @@ cd ${MY_FILES}
 
 if [ "${CERT}" ]
 then
-    curl -o "cert.zip" "${CERT}" && unzip cert.zip
+    echo "Download from ${CERT}!"
+    curl -o "cert.zip" "${CERT}"
+    sleep 10
+    unzip cert.zip
 else
     openssl genrsa -out base.key 2048
     openssl req -new -x509 -nodes -key base.key -days 10000 -subj "/CN=${DOMAIN}" -out base.pem
