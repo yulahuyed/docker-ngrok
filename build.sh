@@ -8,39 +8,14 @@ fi
 
 cd ${MY_FILES}
 
-if [ "${BASE_KEY}" ]
+if [ "${CERT}" ]
 then
-    curl -o "base.key" "${BASE_KEY}"
+    curl -o "cert.zip" "${CERT}" && unzip cert.zip
 else
     openssl genrsa -out base.key 2048
-fi
-
-if [ "${DEVICE_KEY}" ]
-then
-    curl -o "device.key" "${DEVICE_KEY}"
-else
-    openssl genrsa -out device.key 2048
-fi
-
-if [ "${BASE_PEM}" ]
-then
-    curl -o "base.pem" "${BASE_PEM}"
-else
     openssl req -new -x509 -nodes -key base.key -days 10000 -subj "/CN=${DOMAIN}" -out base.pem
-fi
-
-if [ "${DEVICE_CSR}" ]
-then
-    curl -o "device.csr" "${DEVICE_CSR}"
-else
+    openssl genrsa -out device.key 2048
     openssl req -new -key device.key -subj "/CN=${DOMAIN}" -out device.csr
-fi
-
-if [ "${DEVICE_CRT}" ]
-then
-    curl -o "device.crt" "${DEVICE_CRT}"
-    curl -o "base.srl" "${BASE_SRL}"
-else
     openssl x509 -req -in device.csr -CA base.pem -CAkey base.key -CAcreateserial -days 10000 -out device.crt
 fi
 
