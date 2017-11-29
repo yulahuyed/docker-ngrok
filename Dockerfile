@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 MAINTAINER yhiblog <shui.azurewebsites.net>
 
 RUN apt-get update && \
-    apt-get install -y build-essential golang git mercurial openssl curl
+    apt-get install -y build-essential golang git mercurial openssl curl unzip
 
 RUN git clone https://github.com/inconshreveable/ngrok.git /ngrok && mkdir -p /myfiles/bin
 
