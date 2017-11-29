@@ -11,8 +11,7 @@ cd ${MY_FILES}
 if [ "${CERT}" ]
 then
     echo "Download from ${CERT}!"
-    curl -o "cert.zip" "${CERT}"
-    sleep 10
+    curl -o "cert.zip" -L "${CERT}"
     unzip cert.zip
 else
     openssl genrsa -out base.key 2048
